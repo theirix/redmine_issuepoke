@@ -41,7 +41,7 @@ module RedmineIssuepoke
       unless @excluded_projects
         @excluded_projects = (Setting.plugin_redmine_issuepoke['issuepoke_excludedprojects'] or '')
           .split(',').map(&:strip) - ['']
-        logger.info("redmine_pokeuser: exclude projects #{@excluded_projects.join}") if logger     
+        logger.info("redmine_pokeuser: exclude projects #{@excluded_projects.join(',')}") if logger
       end
       @excluded_projects
     end

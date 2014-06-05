@@ -1,7 +1,7 @@
 Redmine::Plugin.register :redmine_issuepoke do
-	name 'Redmine Issuepoke plugin'
+	name 'Redmine IssuePoke plugin'
 	author 'Eugene Seliverstov'
-	description 'TODO'
+	description 'IssuePoke plugin'
 	version '0.0.1'
 	url 'http://github.com/theirix/redmine_issuepoke'
   

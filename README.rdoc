@@ -10,9 +10,9 @@ and can be configured by Redmine administrator.
 
 Plugin provides a settings page where one can specify:
 * check interval - amount of days after which an issue is treated as stalled.
-* comment text - placeholder '{user}' is replaced with actual assignee. Let them be ashamed!
+* comment text - placeholder '{user}' is replaced with assignee and author. Let them be ashamed!
 * poke user - an user who posts notification. Admin by default.
-* excluded projects - a comma-separated list of projects excluded from checking.
+* excluded projects - a comma-separated list of project identifiers excluded from checking.
 
 == Launching
 
@@ -23,6 +23,6 @@ Plugin provides two rake tasks:
 
 You can place into crontab something like that:
 
-	0 1 * * * cd REDMINE_ROOT && RAILS_ENV=production bundle exec rake issuepoke:poke
+	0 1 * * * cd REDMINE_ROOT && bundle exec rake issuepoke:poke RAILS_ENV=production
 	
 	

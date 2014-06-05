@@ -5,6 +5,9 @@ en:
     pokeuser:
       label: 'User who pokes'
       description: 'Specifies an user who posts automatic notifications'
+    poketext:
+      label: 'Poke text'
+      description: 'Poke message to post to an issue'
     excludedprojects:
       label: 'Excluded projects'
       description: 'Comma-separated list of projects excluded from notifications'
