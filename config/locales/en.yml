@@ -1,0 +1,13 @@
+# English strings go here for Rails i18n
+en:
+  issuepoke:
+    greeting: 'IssuePoke plugin'
+    pokeuser:
+      label: 'User who pokes'
+      description: 'Specifies an user who posts automatic notifications'
+    excludedprojects:
+      label: 'Excluded projects'
+      description: 'Comma-separated list of projects excluded from notifications'
+    interval:
+      label: 'Poke interval'
+      description: 'Amount of days plugin waits from latest update to send a notification'

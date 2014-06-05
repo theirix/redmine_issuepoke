@@ -1,0 +1,23 @@
+<%=t 'issuepoke.greeting' %>
+
+<p><label><%=t 'issuepoke.interval.label' %>: </label>
+<%= text_field_tag 'settings[issuepoke_interval]', @settings['issuepoke_interval'] %><br />
+<em><%=t 'issuepoke.interval.description' %></em>
+</p>
+
+<p><label><%=t 'issuepoke.pokeuser.label' %>: </label>
+<%= select_tag 'settings[issuepoke_pokeuser]', 
+	options_for_select(User.where(status: 1).collect{|u| [u.name,u.mail]}, @settings['issuepoke_pokeuser']) %><br />
+<em><%=t 'issuepoke.pokeuser.description' %></em>
+</p>
+
+<p><label><%=t 'issuepoke.poketext.label' %>: </label>
+<%= text_area_tag 'settings[issuepoke_poketext]', @settings['issuepoke_poketext'], :size => '50x5' %><br />
+<em><%=t 'issuepoke.poketext.description' %></em>
+</p>
+
+<p><label><%=t 'issuepoke.excludedprojects.label' %>: </label>
+<%= text_field_tag 'settings[issuepoke_excludedprojects]', @settings['issuepoke_excludedprojects'], :size => 50 %><br />
+<em><%=t 'issuepoke.excludedprojects.description' %></em>
+</p>
+

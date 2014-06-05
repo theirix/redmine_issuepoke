@@ -1,0 +1,28 @@
+= Redmine Issuepoke plugin
+
+Plugin provides simple notification system for stalled issues.
+
+Plugin comments on an opened issue when it had not been updated for
+specified amount of time. Actual mail notifications are sent by Redmine itself
+and can be configured by Redmine administrator.
+
+== Configuration
+
+Plugin provides a settings page where one can specify:
+* check interval - amount of days after which an issue is treated as stalled.
+* comment text - placeholder '{user}' is replaced with actual assignee. Let them be ashamed!
+* poke user - an user who posts notification. Admin by default.
+* excluded projects - a comma-separated list of projects excluded from checking.
+
+== Launching
+
+Plugin provides two rake tasks:
+1. <tt>issuepoke:poke</tt> - Plugin find all stalled issues and updates them.
+
+2. <tt>issuepoke:preview</tt> - Plugin find all stalled issues and prints them to STDERR without actual updating.
+
+You can place into crontab something like that:
+
+	0 1 * * * cd REDMINE_ROOT && RAILS_ENV=production bundle exec rake issuepoke:poke
+	
+	
