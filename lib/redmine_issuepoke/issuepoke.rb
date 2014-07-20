@@ -2,15 +2,27 @@ module RedmineIssuepoke
   
   class IssuePoke
 
+    def self.each_tracker config
+      if config.extrainterval.to_a.empty?
+        yield Issue.open
+          .on_active_project.where('issues.updated_on < ?', config.interval_time)
+      else
+        config.extrainterval.each do |entry|
+          yield Tracker.find(entry[:tracker]).issues
+            .on_active_project.where('issues.updated_on < ?', entry[:interval])
+        end
+      end
+    end
+
     def self.enumerate_issues config
-      Issue.open.on_active_project
-          .where('issues.updated_on < ?', config.interval_time)
-          .joins(:project).where('projects.identifier not in (?)', config.excluded_projects).each do |issue|
-        # TODO what to do with unassigned issues?
-        next unless issue.assigned_to
-        assignee_name = issue.assigned_to ? issue.assigned_to.name : 'all'
-        author_name = issue.author ? issue.author.name : '?'
-        yield [issue, assignee_name, author_name] if block_given?
+      each_tracker(config) do |issues|
+        issues.joins(:project).where('projects.identifier not in (?)', config.excluded_projects).each do |issue|
+          # TODO what to do with unassigned issues?
+          next unless issue.assigned_to
+          assignee_name = issue.assigned_to ? issue.assigned_to.name : 'all'
+          author_name = issue.author ? issue.author.name : '?'
+          yield [issue, assignee_name, author_name] if block_given?
+        end
       end
     end
     

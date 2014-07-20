@@ -14,3 +14,6 @@ en:
     interval:
       label: 'Poke interval'
       description: 'Amount of days plugin waits from latest update to send a notification'
+    intervalpertracker:
+      label: 'Poke interval, tracker'
+      description: 'Interval for tracker or empty for default interval'

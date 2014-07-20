@@ -5,6 +5,15 @@
 <em><%=t 'issuepoke.interval.description' %></em>
 </p>
 
+<% Tracker.all.each do |tracker| %>
+
+<p><label><%=t 'issuepoke.intervalpertracker.label' %> '<%= tracker.name %>': </label>
+<%= text_field_tag "settings[issuepoke_interval_#{tracker.id}]", @settings["issuepoke_interval_#{tracker.id}"] %><br />
+<em><%=t 'issuepoke.intervalpertracker.description' %></em>
+</p>
+
+<% end %>
+
 <p><label><%=t 'issuepoke.pokeuser.label' %>: </label>
 <%= select_tag 'settings[issuepoke_pokeuser]', 
 	options_for_select(User.where(status: 1).collect{|u| [u.name,u.mail]}, @settings['issuepoke_pokeuser']) %><br />
@@ -20,4 +29,3 @@
 <%= text_field_tag 'settings[issuepoke_excludedprojects]', @settings['issuepoke_excludedprojects'], :size => 50 %><br />
 <em><%=t 'issuepoke.excludedprojects.description' %></em>
 </p>
-

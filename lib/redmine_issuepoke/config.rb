@@ -45,6 +45,22 @@ module RedmineIssuepoke
       end
       @excluded_projects
     end
+
+    def extrainterval
+      unless @extra_interval
+        @extra_interval = []
+        Setting.plugin_redmine_issuepoke.each do |key, value|
+          if key =~ /^issuepoke_interval_(\d+)$/
+            tracker_id = $1.to_i
+            interval = (value or '') == '' ? self.interval_time : value.to_i.days.ago
+            @extra_interval << {tracker: tracker_id, interval: interval }
+          end
+        end
+        logger.info("redmine_pokeuser: using intervals #{@extra_interval}") if logger
+      end
+      @extra_interval
+    end
+
   end
 
 end
