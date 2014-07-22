@@ -8,7 +8,7 @@ module RedmineIssuepoke
           .on_active_project.where('issues.updated_on < ?', config.interval_time)
       else
         config.extrainterval.each do |entry|
-          yield Tracker.find(entry[:tracker]).issues
+          yield Tracker.find(entry[:tracker]).issues.open
             .on_active_project.where('issues.updated_on < ?', entry[:interval])
         end
       end
