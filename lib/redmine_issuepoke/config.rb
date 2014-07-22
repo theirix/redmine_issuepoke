@@ -56,9 +56,24 @@ module RedmineIssuepoke
             @extra_interval << {tracker: tracker_id, interval: interval }
           end
         end
-        logger.info("redmine_pokeuser: using intervals #{@extra_interval}") if logger
+        logger.info("redmine_pokeuser: using extra intervals #{@extra_interval}") if logger
       end
       @extra_interval
+    end
+
+    def extrapoketext
+      unless @extra_poketext
+        @extra_poketext = []
+        Setting.plugin_redmine_issuepoke.each do |key, value|
+          if key =~ /^issuepoke_poketext_(\d+)$/
+            tracker_id = $1.to_i
+            poke_text = (value or '') == '' ? self.poke_text : value
+            @extra_poketext << {tracker: tracker_id, poke_text: poke_text }
+          end
+        end
+        logger.info("redmine_pokeuser: using extra poke text #{@extra_poketext}") if logger
+      end
+      @extra_poketext
     end
 
   end

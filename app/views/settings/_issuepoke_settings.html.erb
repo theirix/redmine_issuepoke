@@ -12,6 +12,11 @@
 <em><%=t 'issuepoke.intervalpertracker.description' %></em>
 </p>
 
+<p><label><%=t 'issuepoke.poketextpertracker.label' %> '<%= tracker.name %>': </label>
+<%= text_field_tag "settings[issuepoke_poketext_#{tracker.id}]", @settings["issuepoke_poketext_#{tracker.id}"] %><br />
+<em><%=t 'issuepoke.poketextpertracker.description' %></em>
+</p>
+
 <% end %>
 
 <p><label><%=t 'issuepoke.pokeuser.label' %>: </label>
