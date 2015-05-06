@@ -8,7 +8,7 @@ module RedmineIssuepoke
         interval = extrainterval_entry ? extrainterval_entry[:interval] : config.interval_time
         extrapoketext_entry = config.extrapoketext.find { |x| x[:tracker] == tracker.id }        
         poke_text = extrapoketext_entry ? extrapoketext_entry[:poke_text] : config.poke_text
-        STDERR.puts "Tracker #{tracker.name} uses interval #{interval} and text #{poke_text.split.first}..."
+        STDERR.puts "Tracker #{tracker.name} uses interval #{interval} and text #{poke_text.split('\n').first}..."
         yield [tracker.issues.open.on_active_project.where('issues.updated_on < ?', interval),
           poke_text
         ]
@@ -33,7 +33,7 @@ module RedmineIssuepoke
         STDERR.puts("Preview issue \##{issue.id} (#{issue.subject}), " +
           "status '#{issue.status.name}', authored by '#{author_name}', " +
           "assigned to '#{assignee_name}', " +
-          "with text '#{poke_text.split.first}...', " +
+          "with text '#{poke_text.split('\n').first}...', " +
           "updated #{((Time.now - issue.updated_on) / (3600*24)).round(1)} days ago")
       end
     end

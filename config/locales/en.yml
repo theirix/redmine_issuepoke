@@ -19,4 +19,4 @@ en:
       description: 'Interval for tracker or empty for default interval'
     poketextpertracker:
       label: 'Poke text, tracker'
-      description: 'Poke message to post to an issue for tracker or empty for default text'	  
+      description: 'Poke message to post to an issue for tracker or empty for default text'  

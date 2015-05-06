@@ -21,7 +21,7 @@
 
 <p><label><%=t 'issuepoke.pokeuser.label' %>: </label>
 <%= select_tag 'settings[issuepoke_pokeuser]', 
-	options_for_select(User.where(status: 1).collect{|u| [u.name,u.mail]}, @settings['issuepoke_pokeuser']) %><br />
+  options_for_select(User.where(status: 1).collect{|u| [u.name,u.mail]}, @settings['issuepoke_pokeuser']) %><br />
 <em><%=t 'issuepoke.pokeuser.description' %></em>
 </p>
 
