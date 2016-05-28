@@ -13,7 +13,7 @@ module RedmineIssuepoke
         if poke_user_email.blank? 
           @poke_user = User.where(:admin => true).first
         else
-          @poke_user = User.where(:mail => poke_user_email).first
+          @poke_user = User.find_by_mail(poke_user_email)
           raise 'Cannot find poke user ' + poke_user_email unless @poke_user
         end
         logger.info("redmine_pokeuser: using poke user #{@poke_user.mail}") if logger
