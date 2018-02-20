@@ -31,7 +31,7 @@ module RedmineIssuepoke
 
         if last_good_journal
           STDERR.puts("last good comment was at #{last_good_journal.created_on}: " +
-                      (last_good_journal.notes ? last_good_journal.notes[0...20] : ''))
+                      (last_good_journal.notes ? last_good_journal.notes[0...50].gsub("\n", '|') : ''))
           updated_long_time_ago = last_good_journal.created_on < 6.days.ago
           next unless updated_long_time_ago
         end
@@ -47,7 +47,7 @@ module RedmineIssuepoke
     def self.preview
       config = RedmineIssuepoke::Config.new
       self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
-        STDERR.puts("Preview feedback issue \##{issue.id} (#{issue.subject}), " +
+        STDERR.puts("Preview feedback issue \##{issue.id} (#{issue.subject}) at #{issue.project.identifier}, " +
           "status '#{issue.status.name}', authored by '#{author_name}', " +
           "assigned to '#{assignee_name}', " +
           "with text '#{poke_text.split('\n').first}...', ")
