@@ -23,13 +23,13 @@ module RedmineIssuepoke
 
         journals = issue.journals.order(created_on: :desc)
         # ensure that last meaningful comment was more than 6 days ago
-        if !journals.empty?
-          possible_notes = [
-            poke_text.gsub('{user}', [assignee_name, author_name].uniq.join(', ')),
-            poke_text.gsub('{user}', [author_name, assignee_name].uniq.join(', '))]
+        possible_notes = [
+          poke_text.gsub('{user}', [assignee_name, author_name].uniq.join(', ')),
+          poke_text.gsub('{user}', [author_name, assignee_name].uniq.join(', '))]
 
-          last_good_journal = journals.find{ |j| !possible_notes.include?(j.notes) }
+        last_good_journal = journals.find{ |j| !possible_notes.include?(j.notes) }
 
+        if last_good_journal
           STDERR.puts("last good comment was at #{last_good_journal.created_on}:  #{last_good_journal.notes[0...20]}")
           updated_long_time_ago = last_good_journal.created_on < 6.days.ago
           next unless updated_long_time_ago
