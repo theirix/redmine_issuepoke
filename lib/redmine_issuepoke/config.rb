@@ -36,7 +36,15 @@ module RedmineIssuepoke
       end
       @poke_text
     end
-    
+
+    def feedback_poke_text
+      unless @feedback_poke_text
+        @feedback_poke_text = Setting.plugin_redmine_issuepoke['issuepoke_feedbackpoketext']
+        logger.info("redmine_pokeuser: using feedback poke text #{@feedback_poke_text}") if logger
+      end
+      @feedback_poke_text
+    end
+
     def excluded_projects
       unless @excluded_projects
         @excluded_projects = (Setting.plugin_redmine_issuepoke['issuepoke_excludedprojects'] or '')

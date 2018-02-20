@@ -5,6 +5,7 @@ namespace :issuepoke do
   END_DESC
   task :poke => :environment do
     RedmineIssuepoke::IssuePoke.poke()
+    RedmineIssuepoke::IssueFeedbackPoke.poke()
   end
 
   desc <<-END_DESC
@@ -12,5 +13,6 @@ namespace :issuepoke do
   END_DESC
   task :preview => :environment do
     RedmineIssuepoke::IssuePoke.preview()
+    RedmineIssuepoke::IssueFeedbackPoke.preview()
   end
 end

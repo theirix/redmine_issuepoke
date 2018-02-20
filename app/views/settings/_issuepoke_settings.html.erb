@@ -30,6 +30,11 @@
 <em><%=t 'issuepoke.poketext.description' %></em>
 </p>
 
+<p><label><%=t 'issuepoke.feedbackpoketext.label' %>: </label>
+<%= text_area_tag 'settings[issuepoke_feedbackpoketext]', @settings['issuepoke_feedbackpoketext'], :size => '50x5' %><br />
+<em><%=t 'issuepoke.feedbackpoketext.description' %></em>
+</p>
+
 <p><label><%=t 'issuepoke.excludedprojects.label' %>: </label>
 <%= text_field_tag 'settings[issuepoke_excludedprojects]', @settings['issuepoke_excludedprojects'], :size => 50 %><br />
 <em><%=t 'issuepoke.excludedprojects.description' %></em>

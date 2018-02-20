@@ -16,8 +16,10 @@ module RedmineIssuepoke
     end
 
     def self.enumerate_issues config
+      # avoid rails 3 bug with empty array interpreted as NULL
+      excluded_project_identifiers = config.excluded_projects.empty? ? [''] : config.excluded_projects
       each_tracker(config) do |issues, poke_text|
-        issues.joins(:project).where('projects.identifier not in (?)', config.excluded_projects).each do |issue|
+        issues.joins(:project).where('projects.identifier not in (?)', excluded_project_identifiers).each do |issue|
           # TODO what to do with unassigned issues?
           next unless issue.assigned_to
           assignee_name = issue.assigned_to ? issue.assigned_to.name : 'all'
