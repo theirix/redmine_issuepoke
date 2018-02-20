@@ -15,7 +15,6 @@ module RedmineIssuepoke
         where("#{IssueStatus.table_name}.name = 'Feedback'").
         where("due_date is NULL or due_date < ?", Date.today)
       issues.each do |issue|
-        # TODO what to do with unassigned issues?
         next unless issue.assigned_to
 
         assignee_name = issue.assigned_to ? issue.assigned_to.name : 'all'
@@ -58,7 +57,7 @@ module RedmineIssuepoke
       config = RedmineIssuepoke::Config.new
       self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
         STDERR.puts "Poking feedback issue \##{issue.id} (#{issue.subject})"
-        note = poke_text.gsub('{user}', [assignee_name, author_name].uniq.join(', '))
+        note = poke_text.gsub('{user}', [assignee_name].uniq.join(', '))
         # XXX disable now
         next
         journal = issue.init_journal(config.poke_user, note)
