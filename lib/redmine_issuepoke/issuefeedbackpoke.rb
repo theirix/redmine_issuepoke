@@ -56,10 +56,8 @@ module RedmineIssuepoke
     def self.poke
       config = RedmineIssuepoke::Config.new
       self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
-        STDERR.puts "Poking feedback issue \##{issue.id} (#{issue.subject})"
+        STDERR.puts "Poking feedback issue \##{issue.id} (#{issue.subject}) at #{issue.project.identifier}"
         note = poke_text.gsub('{user}', [assignee_name].uniq.join(', '))
-        # XXX disable now
-        next
         journal = issue.init_journal(config.poke_user, note)
         raise 'Error creating journal' unless journal
         issue.save
