@@ -55,12 +55,21 @@ module RedmineIssuepoke
 
     def self.poke
       config = RedmineIssuepoke::Config.new
+
+      issues = []
       self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
         STDERR.puts "Poking feedback issue \##{issue.id} (#{issue.subject}) at #{issue.project.identifier}"
         note = poke_text.gsub('{user}', [assignee_name].uniq.join(', '))
         journal = issue.init_journal(config.poke_user, note)
         raise 'Error creating journal' unless journal
         issue.save
+        issues.append(issue)
+      end
+
+      if !config.feedback_report_emails.inspect.empty? && issues
+        to = config.feedback_report_emails.map { |email| User.find_by_mail(email) }.compact
+        STDERR.puts("Send report to users: #{to.map(&:login).join(',')}")
+        ReportMailer.report(to, issues).deliver()
       end
     end
 
