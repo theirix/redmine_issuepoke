@@ -11,6 +11,9 @@ en:
     feedbackpoketext:
       label: 'Feedback poke text'
       description: 'Poke message to post to an issue in feedback state (empty to disable)'
+    feedbackpokereportmail:
+      label: 'Send feedback report to email'
+      description: 'Where to send feedback poke reports (empty to disable)'
     excludedprojects:
       label: 'Excluded projects'
       description: 'Comma-separated list of projects excluded from notifications'

@@ -45,6 +45,15 @@ module RedmineIssuepoke
       @feedback_poke_text
     end
 
+    def feedback_report_emails
+      unless @feedback_report_emails
+        @feedback_report_emails = (Setting.plugin_redmine_issuepoke['issuepoke_feedbackpokereportmail'] or '')
+          .split(',').map(&:strip) - ['']
+        logger.info("redmine_pokeuser: using feedback emails #{@feedback_report_emails}") if logger
+      end
+      @feedback_report_emails
+    end
+
     def excluded_projects
       unless @excluded_projects
         @excluded_projects = (Setting.plugin_redmine_issuepoke['issuepoke_excludedprojects'] or '')

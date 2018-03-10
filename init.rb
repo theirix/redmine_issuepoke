@@ -13,7 +13,8 @@ Redmine::Plugin.register :redmine_issuepoke do
     'issuepoke_excludedprojects' => '',
     'issuepoke_interval' => RedmineIssuepoke::Config::DEFAULT_INTERVAL,
     'issuepoke_poketext' => "Dear {user}!\nPlease fix this issue!\n",
-    'issuepoke_feedback_poketext' => "",
+    'issuepoke_feedbackpoketext' => "",
+    'issuepoke_feedbackpokereportmail' => "",
   },
   :partial => 'settings/issuepoke_settings'  
 end
