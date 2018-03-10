@@ -1,0 +1,9 @@
+Feedback notifications sent to <%= @issues.size %> ticket(s):
+<ul>
+  <% @issues.each do |issue | %>
+  <li>
+    <%= link_to("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}",
+         url_for(:controller => 'issues', :action => 'show', :id => issue)) %></h1>
+  </li>
+  <% end %>
+</ul>

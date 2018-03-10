@@ -1,0 +1,4 @@
+Feedback notifications sent to <%= @issues.size %> ticket(s):
+<% @issues.each do |issue | %>
+- <%= "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}" %>
+<% end %>
