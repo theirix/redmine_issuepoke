@@ -51,6 +51,9 @@ module RedmineIssuepoke
           "assigned to '#{assignee_name}', " +
           "with text '#{poke_text.split('\n').first}...', ")
       end
+
+      # debug mails
+      #self.send_report(User.where(admin: true, Issue.first(3))
     end
 
     def self.poke
@@ -68,10 +71,25 @@ module RedmineIssuepoke
 
       if !config.feedback_report_emails.inspect.empty? && issues
         to = config.feedback_report_emails.map { |email| User.find_by_mail(email) }.compact
-        STDERR.puts("Send report to users: #{to.map(&:login).join(',')}")
-        ReportMailer.report(to, issues).deliver()
+        self.send_report(to, issues)
       end
     end
+
+    def self.send_report(to, issues)
+      STDERR.puts("Send report to users: #{to.map(&:login).join(',')}")
+
+      raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
+      ActionMailer::Base.raise_delivery_errors = true
+      begin
+        mail = ReportMailer.report(to, issues)
+        mail.deliver_now()
+        # need to work with async tasks
+        sleep(10)
+      ensure
+        ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
+      end
+    end
+
 
   end
 
