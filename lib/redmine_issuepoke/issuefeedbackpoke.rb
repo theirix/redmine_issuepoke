@@ -70,7 +70,7 @@ module RedmineIssuepoke
       end
 
       if !config.feedback_report_emails.inspect.empty? && issues
-        to = config.feedback_report_emails.map { |email| User.find_by_mail(email) }.compact
+        to = config.feedback_report_emails.compact
         self.send_report(to, issues)
       end
     end
