@@ -76,7 +76,7 @@ module RedmineIssuepoke
     end
 
     def self.send_report(to, issues)
-      STDERR.puts("Send report to users: #{to.map(&:login).join(',')}")
+      STDERR.puts("Send report to users: #{to.join(',')}")
 
       raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
       ActionMailer::Base.raise_delivery_errors = true
