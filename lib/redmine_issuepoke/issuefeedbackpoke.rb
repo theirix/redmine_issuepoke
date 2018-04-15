@@ -22,9 +22,10 @@ module RedmineIssuepoke
 
         journals = issue.journals.order(created_on: :desc)
         # ensure that last meaningful comment was more than 6 days ago
-        possible_notes = [
-          poke_text.gsub('{user}', [assignee_name, author_name].uniq.join(', ')),
-          poke_text.gsub('{user}', [author_name, assignee_name].uniq.join(', '))]
+        possible_user_seq = [[assignee_name], [author_name],
+                             [assignee_name, author_name],
+                             [author_name, assignee_name]]
+        possible_notes = possible_user_seq.map { |seq| poke_text.gsub('{user}', seq.uniq.join(', ')) }
 
         last_good_journal = journals.find{ |j| !possible_notes.include?(j.notes) }
 
