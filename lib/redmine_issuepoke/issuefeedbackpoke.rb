@@ -31,7 +31,7 @@ module RedmineIssuepoke
 
         if last_good_journal
           #STDERR.puts("last good comment was at #{last_good_journal.created_on}: " +
-          #            (last_good_journal.notes ? last_good_journal.notes[0...50].gsub("\n", '|') : ''))
+          #            (last_good_journal.notes ? last_good_journal.notes[0...50].gsub("\n", '  |') : ''))
           updated_long_time_ago = last_good_journal.created_on < 6.days.ago
           next unless updated_long_time_ago
         end
@@ -46,12 +46,18 @@ module RedmineIssuepoke
 
     def self.preview
       config = RedmineIssuepoke::Config.new
+
+      issue_ids = []
       self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
         STDERR.puts("Preview feedback issue \##{issue.id} (#{issue.subject}) at #{issue.project.identifier}, " +
           "status '#{issue.status.name}', authored by '#{author_name}', " +
           "assigned to '#{assignee_name}', " +
           "with text '#{poke_text.split('\n').first}...', ")
+        issue_ids.append(issue.id)
       end
+
+      issues = Issue.find(issue_ids)
+      STDERR.puts("Updated #{issues.size} issues")
 
       # debug mails
       #self.send_report(User.where(admin: true, Issue.first(3))
@@ -60,17 +66,20 @@ module RedmineIssuepoke
     def self.poke
       config = RedmineIssuepoke::Config.new
 
-      issues = []
+      issue_ids = []
       self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
         STDERR.puts "Poking feedback issue \##{issue.id} (#{issue.subject}) at #{issue.project.identifier}"
         note = poke_text.gsub('{user}', [assignee_name].uniq.join(', '))
         journal = issue.init_journal(config.poke_user, note)
         raise 'Error creating journal' unless journal
+        issue_ids.append(issue.id)
         issue.save
-        issues.append(issue)
       end
 
-      if !config.feedback_report_emails.inspect.empty? && issues
+      issues = Issue.find(issue_ids)
+      STDERR.puts("Updated #{issues.size} issues")
+
+      if !config.feedback_report_emails.inspect.empty? && !issues.empty?
         to = config.feedback_report_emails.compact
         self.send_report(to, issues)
       end
