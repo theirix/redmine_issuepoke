@@ -47,7 +47,7 @@ module RedmineIssuepoke
         note = poke_text.gsub('{user}', [assignee_name, author_name].uniq.join(', '))
         journal = issue.init_journal(config.poke_user, note)
         raise 'Error creating journal' unless journal
-        issue.save
+        issue.save(validate: false)
       end
     end
   

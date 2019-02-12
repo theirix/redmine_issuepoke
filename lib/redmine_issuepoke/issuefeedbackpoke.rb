@@ -73,7 +73,7 @@ module RedmineIssuepoke
         journal = issue.init_journal(config.poke_user, note)
         raise 'Error creating journal' unless journal
         issue_ids.append(issue.id)
-        issue.save
+        issue.save(validate: false)
       end
 
       issues = Issue.find(issue_ids)
