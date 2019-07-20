@@ -91,8 +91,10 @@ module RedmineIssuepoke
       raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
       ActionMailer::Base.raise_delivery_errors = true
       begin
-        mail = ReportMailer.report(to, issues)
-        mail.deliver_now()
+        to.each do |to_user|
+          mail = ReportMailer.report(to_user, issues)
+          mail.deliver_now()
+        end
         # need to work with async tasks
         sleep(10)
       ensure
