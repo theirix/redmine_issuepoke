@@ -42,12 +42,14 @@ module RedmineIssuepoke
     
     def self.poke
       config = RedmineIssuepoke::Config.new
-      self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
-        STDERR.puts "Poking issue \##{issue.id} (#{issue.subject})"
-        note = poke_text.gsub('{user}', [assignee_name, author_name].uniq.join(', '))
-        journal = issue.init_journal(config.poke_user, note)
-        raise 'Error creating journal' unless journal
-        issue.save(validate: false)
+      Mailer.with_synched_deliveries do
+        self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
+          STDERR.puts "Poking issue \##{issue.id} (#{issue.subject})"
+          note = poke_text.gsub('{user}', [assignee_name, author_name].uniq.join(', '))
+          journal = issue.init_journal(config.poke_user, note)
+          raise 'Error creating journal' unless journal
+          issue.save(validate: false)
+        end
       end
     end
   
