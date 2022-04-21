@@ -29,7 +29,10 @@ module RedmineIssuepoke
 
         last_good_journal = journals.find{ |j| !possible_notes.include?(j.notes) }
 
-        if last_good_journal
+        is_overdue = issue.due_date && issue.due_date < Date.today
+
+        # check for meaningful comment only if issue is not overdue
+        if last_good_journal && !is_overdue
           #STDERR.puts("last good comment was at #{last_good_journal.created_on}: " +
           #            (last_good_journal.notes ? last_good_journal.notes[0...50].gsub("\n", '  |') : ''))
           updated_long_time_ago = last_good_journal.created_on < 6.days.ago
