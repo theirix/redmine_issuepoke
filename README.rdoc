@@ -2,6 +2,8 @@
 
 Plugin provides simple notification system for stalled issues.
 
+Supported versions: 4.0 - 5.0.
+
 Plugin comments on an opened issue when it had not been updated for
 specified amount of time. Actual mail notifications are sent by Redmine itself
 and can be configured by Redmine administrator.

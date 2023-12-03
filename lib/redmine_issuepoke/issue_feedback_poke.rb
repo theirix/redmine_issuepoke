@@ -97,7 +97,7 @@ module RedmineIssuepoke
         to.each do |to_email|
           to_user = User.find_by_mail(to_email)
           if to_user
-            mail = ReportMailer.report(to_user, issues)
+            mail = RedmineIssuepoke::Mailer::ReportMailer.report(to_user, issues)
             mail.deliver_now()
           else
             STDERR.puts("User not found")
