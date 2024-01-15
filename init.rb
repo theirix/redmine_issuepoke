@@ -3,7 +3,7 @@ Redmine::Plugin.register :redmine_issuepoke do
   author 'Eugene Seliverstov'
   author_url 'http://omniverse.ru'
   description 'IssuePoke plugin'
-  version '0.0.8'
+  version '0.0.9'
   url 'http://github.com/theirix/redmine_issuepoke'
 
   require_relative 'lib/redmine_issuepoke'

@@ -63,7 +63,7 @@ module RedmineIssuepoke
       STDERR.puts("Updated #{issues.size} issues")
 
       # debug mails
-      #self.send_report(User.where(admin: true, Issue.first(3))
+      #self.send_report([User.where(admin: true).first.mail], Issue.first(3))
     end
 
     def self.poke
@@ -97,7 +97,7 @@ module RedmineIssuepoke
         to.each do |to_email|
           to_user = User.find_by_mail(to_email)
           if to_user
-            mail = RedmineIssuepoke::Mailer::ReportMailer.report(to_user, issues)
+            mail = ReportMailer.report(to_user, issues)
             mail.deliver_now()
           else
             STDERR.puts("User not found")
