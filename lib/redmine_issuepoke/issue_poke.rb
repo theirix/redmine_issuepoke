@@ -42,7 +42,7 @@ module RedmineIssuepoke
     
     def self.poke
       config = RedmineIssuepoke::Config.new
-      RedmineIssuepoke::Mailer::ReportMailer.with_synched_deliveries do
+      ReportMailer.with_synched_deliveries do
         self.enumerate_issues(config) do |issue, assignee_name, author_name, poke_text|
           STDERR.puts "Poking issue \##{issue.id} (#{issue.subject})"
           note = poke_text.gsub('{user}', [assignee_name, author_name].uniq.join(', '))
